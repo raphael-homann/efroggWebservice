@@ -6,7 +6,6 @@ use efrogg\Db\Adapters\DbAdapter;
 use efrogg\Db\Adapters\DbResultAdapter;
 use efrogg\Db\Adapters\Mysql\MysqlDbResult;
 use efrogg\Db\Adapters\Pdo\PdoDbResult;
-use efrogg\Db\Adapters\Pdo\PdoDbResult;
 
 class PdoDbAdapter implements DbAdapter{
     /** @var  \PDO */
