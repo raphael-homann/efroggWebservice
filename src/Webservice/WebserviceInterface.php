@@ -8,7 +8,7 @@
 
 namespace efrogg\Webservice;
 
-use efrogg\Adapters\Db\DbAdapter;
+use efrogg\Db\Adapters\DbAdapter;
 use Symfony\Component\HttpFoundation\Response;
 
 interface WebserviceInterface {
