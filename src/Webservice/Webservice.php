@@ -1,7 +1,7 @@
 <?php
 namespace efrogg\Webservice;
 
-use efrogg\Adapters\Db\DbAdapter;
+use efrogg\Db\Adapters\DbAdapter;
 
 abstract class Webservice implements \efrogg\Webservice\WebserviceInterface {
 

@@ -17,7 +17,7 @@
         "symfony/validator": "^3.1"
     },
     "autoload": {
-        "psr-4": { "efrogg\\Webservice\\": "src/Webservice" }
+        "psr-4": { "efrogg\\": "src/" }
     },
     "extra": {
         "branch-alias": {
