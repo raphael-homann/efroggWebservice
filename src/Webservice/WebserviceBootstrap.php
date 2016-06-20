@@ -18,11 +18,14 @@ class WebserviceBootstrap {
 
     protected $app;
 
-    public function __construct()
+    protected $allowDebug = false;
+
+    public function __construct($options=array())
     {
+        $this->allowDebug = (isset($options["allow_debug"]) && $options["allow_debug"]);
 
         $this->app = new Application();
-        if (EST_EFROGG && isset($_SERVER['HTTP_MODEDEV']) && $_SERVER['HTTP_MODEDEV'] == 1) {   //TODO
+        if ($this->allowDebug ) {   //TODO && isset($_SERVER['HTTP_MODEDEV']) && $_SERVER['HTTP_MODEDEV'] == 1
             $app['debug'] = true;
             ini_set("display_errors", "on");
             error_reporting(E_ALL);
@@ -31,36 +34,10 @@ class WebserviceBootstrap {
         $this->app->register(new ServiceControllerServiceProvider());
         $this->app->register(new ValidatorServiceProvider());
 
-// auth
-        $this->app->before(function (Request $request, Application $app) {
-            $authenticator = new WebserviceAuthenticator("9D22NNDJ721JHMMGECKRPTMHHKPGHPPV");       //TODO
-            if ($authenticator->tryAuth()) {
-                if (!empty($request->getContent())) {
-                    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-                        $data = json_decode($request->getContent(), true);
-                        // validation JSON
-                        if (is_null($data)) {
-                            // json mal formé
-                            throw new HttpException(400, "invalid JSON");
-                        }
-                        $request->request->replace(is_array($data) ? $data : array());
-                    } else {
-                        // réponse non json
-                        throw new HttpException(400, "non JSON request");
-                    }
-                }
-            } else {
-                return $authenticator->getResponse();
-            }
-
-            $request->attributes->add(array(
-                'request_time' => date_timestamp_get(date_create())
-            ));
-        }, Application::EARLY_EVENT);
-
         if (!$this->app['debug']) {
+            // catch les exceptions
             $app = $this->app;
-            $this->app->error(function (Exception $e) {
+            $this->app->error(function (Exception $e) use ($app) {
                 $response = new JsonResponse();
 
                 if ($e instanceof HttpJsonException) {
@@ -106,10 +83,36 @@ class WebserviceBootstrap {
                 ));
             }
         });
+        // dépendances
 
+    }
 
-// dépendances
+    public function setAuth($user,$pass='') {
+        $this->app->before(function (Request $request, Application $app) use($user,$pass) {
+            $authenticator = new WebserviceAuthenticator($user);       //TODO
+            if ($authenticator->tryAuth()) {
+                if (!empty($request->getContent())) {
+                    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+                        $data = json_decode($request->getContent(), true);
+                        // validation JSON
+                        if (is_null($data)) {
+                            // json mal formé
+                            throw new HttpException(400, "invalid JSON");
+                        }
+                        $request->request->replace(is_array($data) ? $data : array());
+                    } else {
+                        // réponse non json
+                        throw new HttpException(400, "non JSON request");
+                    }
+                }
+            } else {
+                return $authenticator->getResponse();
+            }
 
+            $request->attributes->add(array(
+                'request_time' => date_timestamp_get(date_create())
+            ));
+        }, Application::EARLY_EVENT);
     }
     public function run() {
         $this->app->run();
