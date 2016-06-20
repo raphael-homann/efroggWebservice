@@ -22,7 +22,7 @@ class PdoDbResult implements DbResultAdapter {
 
     public function fetchAll()
     {
-        return $this -> statement -> fetchAll(\PDO::FETCH_ASSOC);
+        return $this -> statement -> fetchAll();
     }
 
     public function fetchColumn($column = 0)
