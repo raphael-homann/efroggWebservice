@@ -31,4 +31,8 @@ interface DbResultAdapter {
     public function fetchColumn($column_name);
 
     public function fetchAllObject($class_name = null, array $params = null);
+
+    public function getErrorCode();
+
+    public function getErrorMessage();
 }

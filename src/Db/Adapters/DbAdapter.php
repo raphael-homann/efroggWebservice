@@ -26,4 +26,7 @@ interface DbAdapter {
      * @return int
      */
     public function getAffectedRows();
+
+
+    public function throwsExceptions();
 }

@@ -26,7 +26,7 @@ class WebserviceBootstrap {
 
         $this->app = new Application();
         if ($this->allowDebug ) {   //TODO && isset($_SERVER['HTTP_MODEDEV']) && $_SERVER['HTTP_MODEDEV'] == 1
-            $app['debug'] = true;
+            $this->app['debug'] = true;
             ini_set("display_errors", "on");
             error_reporting(E_ALL);
         }

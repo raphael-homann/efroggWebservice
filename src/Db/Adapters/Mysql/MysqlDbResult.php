@@ -80,4 +80,14 @@ class MysqlDbResult implements DbResultAdapter {
         }
         return $result;
     }
+
+    public function getErrorCode()
+    {
+        return mysql_errno($this->resource);    //todo : ne doit pas marcher....
+    }
+
+    public function getErrorMessage()
+    {
+        return mysql_error($this->resource);   //todo : ne doit pas marcher.... non plus ....
+    }
 }

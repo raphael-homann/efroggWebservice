@@ -27,7 +27,15 @@ class PdoDbResult implements DbResultAdapter {
 
     public function fetchColumn($column = 0)
     {
-        return $this -> statement -> fetchColumn($column);
+        if(is_int($column)) {
+            return $this -> statement -> fetchColumn($column);
+        } else {
+            $column_data=array();
+            foreach($this->fetchAll() as $row) {
+                $column_data[]=$row[$column];
+            }
+            return $column_data;
+        }
     }
 
     /**
@@ -35,7 +43,7 @@ class PdoDbResult implements DbResultAdapter {
      */
     public function isValid()
     {
-        return $this -> statement !== false;
+        return intval($this -> statement->errorCode())==0;
     }
 
     /**
@@ -55,5 +63,18 @@ class PdoDbResult implements DbResultAdapter {
             $result[]=$line;
         }
         return $result;
+    }
+
+    public function getErrorCode()
+    {
+        $info = $this -> statement->errorInfo();
+        return $info[1];
+//        return $this -> statement->errorCode();
+    }
+
+    public function getErrorMessage()
+    {
+        $info = $this -> statement->errorInfo();
+        return $info[2];
     }
 }
