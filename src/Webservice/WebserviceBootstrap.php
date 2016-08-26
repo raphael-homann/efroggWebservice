@@ -127,4 +127,13 @@ class WebserviceBootstrap {
     {
         $this->app->mount($path, $provider);
     }
+
+    /**
+     * @return Application
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
 }
