@@ -61,4 +61,9 @@ class PrestashopDbAdapter implements DbAdapter{
     {
         $this->db->Affected_Rows();
     }
+
+    public function throwsExceptions()
+    {
+        // TODO: Implement throwsExceptions() method.
+    }
 }
