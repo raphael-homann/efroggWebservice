@@ -53,7 +53,11 @@ class PdoDbResult implements DbResultAdapter {
      */
     public function fetchObject($class_name = "stdClass", array $params = null)
     {
-        return $this -> statement -> fetchObject($class_name,$params);
+        if(is_null($params)) {
+            return $this -> statement -> fetchObject($class_name);
+        } else {
+            return $this -> statement -> fetchObject($class_name,$params);
+        }
     }
 
     public function fetchAllObject($class_name = "stdClass", array $params = null)
