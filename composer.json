@@ -14,7 +14,8 @@
         "php": ">=5.3.0",
         "symfony/http-kernel": "^2.8",
         "silex/silex": "~2.0",
-        "symfony/validator": "^3.1"
+        "symfony/validator": "^3.1",
+        "efrogg/database":"~0.0.1"
     },
     "autoload": {
         "psr-4": { "efrogg\\": "src/" }
