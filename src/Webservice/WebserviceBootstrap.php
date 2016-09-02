@@ -3,6 +3,7 @@
 namespace efrogg\Webservice;
 
 use efrogg\Db\Adapters\DbAdapter;
+use efrogg\Webservice\Authenticator\SimpleAuthenticator;
 use efrogg\Webservice\Exception\HttpJsonException;
 use Exception;
 use Silex\Api\ControllerProviderInterface;
@@ -87,9 +88,8 @@ class WebserviceBootstrap {
 
     }
 
-    public function setAuth($user,$pass='') {
-        $this->app->before(function (Request $request, Application $app) use($user,$pass) {
-            $authenticator = new WebserviceAuthenticator($user);       //TODO
+    public function setAuthenticator(WebserviceAuthenticatorInterface $authenticator) {
+        $this->app->before(function (Request $request, Application $app) use($authenticator) {
             if ($authenticator->tryAuth()) {
                 if (!empty($request->getContent())) {
                     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
@@ -113,7 +113,18 @@ class WebserviceBootstrap {
                 'request_time' => date_timestamp_get(date_create())
             ));
         }, Application::EARLY_EVENT);
+
     }
+
+    /**
+     * définit une authentification simple (user)
+     * @param $user
+     * @param string $pass
+     */
+    public function setAuth($user,$pass='') {
+        $this -> setAuthenticator(new SimpleAuthenticator($user));
+    }
+
     public function run() {
         $this->app->run();
     }

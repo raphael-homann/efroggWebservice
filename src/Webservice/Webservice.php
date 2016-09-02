@@ -3,7 +3,8 @@ namespace efrogg\Webservice;
 
 use efrogg\Db\Adapters\DbAdapter;
 
-abstract class Webservice implements \efrogg\Webservice\WebserviceInterface {
+abstract class Webservice implements WebserviceInterface
+{
 
     /** @var  DbAdapter */
     protected $db;

@@ -6,12 +6,12 @@
  * Time: 10:57
  */
 
-namespace efrogg\Webservice;
+namespace efrogg\Webservice\Authenticator;
 
 
 use Symfony\Component\HttpFoundation\Response;
 
-class WebserviceAuthenticator
+class SimpleAuthenticator implements AuthenticatorInterface
 {
     protected $key = "-------------------------------";
 
@@ -72,7 +72,7 @@ class WebserviceAuthenticator
 
     /**
      * @param string $key
-     * @return WebserviceAuthenticator
+     * @return SimpleAuthenticator
      */
     public function setKey($key)
     {
