@@ -3,6 +3,7 @@
 namespace efrogg\Webservice;
 
 use efrogg\Db\Adapters\DbAdapter;
+use efrogg\Webservice\Authenticator\AuthenticatorInterface;
 use efrogg\Webservice\Authenticator\SimpleAuthenticator;
 use efrogg\Webservice\Exception\HttpJsonException;
 use Exception;
@@ -88,7 +89,7 @@ class WebserviceBootstrap {
 
     }
 
-    public function setAuthenticator(WebserviceAuthenticatorInterface $authenticator) {
+    public function setAuthenticator(AuthenticatorInterface $authenticator) {
         $this->app->before(function (Request $request, Application $app) use($authenticator) {
             if ($authenticator->tryAuth()) {
                 if (!empty($request->getContent())) {
