@@ -1,11 +1,11 @@
 <?php
 
-namespace efrogg\Webservice;
+namespace Efrogg\Webservice;
 
-use efrogg\Db\Adapters\DbAdapter;
-use efrogg\Webservice\Authenticator\AuthenticatorInterface;
-use efrogg\Webservice\Authenticator\SimpleAuthenticator;
-use efrogg\Webservice\Exception\HttpJsonException;
+use Efrogg\Db\Adapters\DbAdapter;
+use Efrogg\Webservice\Authenticator\AuthenticatorInterface;
+use Efrogg\Webservice\Authenticator\SimpleAuthenticator;
+use Efrogg\Webservice\Exception\HttpJsonException;
 use Exception;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;

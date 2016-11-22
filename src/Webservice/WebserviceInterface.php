@@ -6,9 +6,9 @@
  * Time: 11:05
  */
 
-namespace efrogg\Webservice;
+namespace Efrogg\Webservice;
 
-use efrogg\Db\Adapters\DbAdapter;
+use Efrogg\Db\Adapters\DbAdapter;
 use Symfony\Component\HttpFoundation\Response;
 
 interface WebserviceInterface {

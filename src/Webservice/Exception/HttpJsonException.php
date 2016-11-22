@@ -1,6 +1,6 @@
 <?php
 
-namespace efrogg\Webservice\Exception;
+namespace Efrogg\Webservice\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

@@ -1,5 +1,5 @@
 <?php
-namespace efrogg\Webservice\Exception;
+namespace Efrogg\Webservice\Exception;
 
 class ValidationException extends HttpJsonException
 {

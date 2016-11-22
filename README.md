@@ -66,7 +66,7 @@ on crée des services
     namespace efrogg\Simplecms\Webservice;
     
     use efrogg\Db\Adapters\DbAdapter;
-    use efrogg\Webservice\WebserviceInterface;
+    use Efrogg\Webservice\WebserviceInterface;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Response;
     

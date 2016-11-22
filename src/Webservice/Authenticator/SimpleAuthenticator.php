@@ -6,7 +6,7 @@
  * Time: 10:57
  */
 
-namespace efrogg\Webservice\Authenticator;
+namespace Efrogg\Webservice\Authenticator;
 
 
 use Symfony\Component\HttpFoundation\Response;
