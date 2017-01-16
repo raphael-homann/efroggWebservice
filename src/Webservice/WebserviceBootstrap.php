@@ -89,6 +89,10 @@ class WebserviceBootstrap {
 
     }
 
+    public function after(callable $callback) {
+        $this->app->after($callback);
+    }
+
     public function setAuthenticator(AuthenticatorInterface $authenticator) {
         $this->app->before(function (Request $request, Application $app) use($authenticator) {
             if ($authenticator->tryAuth()) {
