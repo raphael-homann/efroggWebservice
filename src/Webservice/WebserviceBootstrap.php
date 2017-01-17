@@ -6,6 +6,7 @@ use Efrogg\Db\Adapters\DbAdapter;
 use Efrogg\Webservice\Authenticator\AuthenticatorInterface;
 use Efrogg\Webservice\Authenticator\SimpleAuthenticator;
 use Efrogg\Webservice\Exception\HttpJsonException;
+use ErpConnector\Response\ApiResponse;
 use Exception;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
@@ -40,7 +41,7 @@ class WebserviceBootstrap {
             // catch les exceptions
             $app = $this->app;
             $this->app->error(function (Exception $e) use ($app) {
-                $response = new JsonResponse();
+                $response = ApiResponse::create();
 
                 if ($e instanceof HttpJsonException) {
                     // erreur HTTP, on passe son statut_code
