@@ -5,6 +5,7 @@ namespace Efrogg\Webservice;
 use Efrogg\Db\Adapters\DbAdapter;
 use Efrogg\Webservice\Authenticator\AuthenticatorInterface;
 use Efrogg\Webservice\Authenticator\SimpleAuthenticator;
+use Efrogg\Webservice\Event\EventException;
 use Efrogg\Webservice\Exception\HttpJsonException;
 use ErpConnector\Response\ApiResponse;
 use Exception;
@@ -12,12 +13,12 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class WebserviceBootstrap {
+class WebserviceBootstrap extends EventDispatcher {
 
     protected $app;
 
@@ -63,6 +64,7 @@ class WebserviceBootstrap {
                         )
                     );
                 } else {
+                    $this->dispatch(EventException::EVENT_EXCEPTION,new EventException($e));
                     // toute erreur
                     $response->setStatusCode(500);
                     $jsonRespondeData = array(
