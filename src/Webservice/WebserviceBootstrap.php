@@ -23,6 +23,9 @@ class WebserviceBootstrap extends EventDispatcher {
     protected $app;
 
     protected $allowDebug = false;
+    
+    /** @var float */
+    private $startTime;
 
     public function __construct($options=array())
     {
@@ -134,6 +137,7 @@ class WebserviceBootstrap extends EventDispatcher {
     }
 
     public function run() {
+        $this->beginTimer();
         $this->app->run();
     }
 
@@ -153,6 +157,16 @@ class WebserviceBootstrap extends EventDispatcher {
     public function getApp()
     {
         return $this->app;
+    }
+    
+    public function beginTimer(): void
+    {
+        $this->startTime = microtime(true);
+    }
+    
+    public function getDuration():float
+    {
+        return microtime(true) - $this->startTime;
     }
 
 }
