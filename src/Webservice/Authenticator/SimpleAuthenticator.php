@@ -13,7 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SimpleAuthenticator implements AuthenticatorInterface
 {
-    protected $key = "-------------------------------";
+    /**
+     * @var string[]
+     */
+    protected $key = [];
 
     /** @var  Response */
     protected $response;
@@ -23,7 +26,7 @@ class SimpleAuthenticator implements AuthenticatorInterface
      */
     public function __construct($key)
     {
-        $this->key=$key;
+        $this->setKey($key);
     }
 
     /**
@@ -33,20 +36,26 @@ class SimpleAuthenticator implements AuthenticatorInterface
     {
         // controle auth
         //set http auth headers for apache+php-cgi work around
-        if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'],
-                $matches)
+        if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match(
+                '/Basic\s+(.*)$/i',
+                $_SERVER['HTTP_AUTHORIZATION'],
+                $matches
+            )
         ) {
-            if(isset($matches[1])){
+            if (isset($matches[1])) {
                 list($name, $password) = explode(':', base64_decode($matches[1]));
                 $_SERVER['PHP_AUTH_USER'] = strip_tags($name);
             }
         }
 
         //set http auth headers for apache+php-cgi work around if variable gets renamed by apache
-        if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i',
-                $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)
+        if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match(
+                '/Basic\s+(.*)$/i',
+                $_SERVER['REDIRECT_HTTP_AUTHORIZATION'],
+                $matches
+            )
         ) {
-            if(isset($matches[1])) {
+            if (isset($matches[1])) {
                 list($name, $password) = explode(':', base64_decode($matches[1]));
                 $_SERVER['PHP_AUTH_USER'] = strip_tags($name);
             }
@@ -57,30 +66,36 @@ class SimpleAuthenticator implements AuthenticatorInterface
         } elseif (isset($_GET['ws_key'])) {
             $key = $_GET['ws_key'];
         } else {
-            $this->response = new Response("Unauthorized",401,array(
-                "WWW-Authenticate" => 'Basic realm="Welcome to PrestaShop Webservice, please enter the authentication key as the login. No password required."'
+            $this->response = new Response("Unauthorized", 401, array(
+                "WWW-Authenticate" => 'Basic realm="Welcome to PrestaShop Webservice, please enter the authentication key as the login. No password required."',
             ));
+
             return false;
         }
 
-        if ($key != $this->key) {
-            $this->response = new Response("Unauthorized",401,array(
-                "WWW-Authenticate" => 'Basic realm="Welcome to PrestaShop Webservice, please enter the authentication key as the login. No password required."'
+        if (!in_array($key, $this->key, true)) {
+            $this->response = new Response("Unauthorized", 401, array(
+                "WWW-Authenticate" => 'Basic realm="Welcome to PrestaShop Webservice, please enter the authentication key as the login. No password required."',
             ));
+
             return false;
         }
 
         return true;
-
     }
 
     /**
-     * @param string $key
+     * @param string|string[] $key
      * @return SimpleAuthenticator
      */
     public function setKey($key)
     {
+        if (!is_array($key)) {
+            $key = [$key];
+        }
+
         $this->key = $key;
+
         return $this;
     }
 
